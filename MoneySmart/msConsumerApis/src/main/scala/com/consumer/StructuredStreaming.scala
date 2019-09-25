@@ -182,8 +182,8 @@ object StructuredStreaming {
                     .withColumn(
                       "session_id",
                       when(
-                          // If difference of timestamp > 30 min or init <> true, create new session
-                          (col("message_date") - col("msg_date")/60 > 30) || (col("init_session") !== true), 
+                          // If difference of timestamp > 30 min or init == true, create new session
+                          ((col("message_date") - col("msg_date"))/60 > 30) || (col("init_session") === true), 
                           newSessionIdUDF(col("user_id")) 
                       ).otherwise(col("session_id"))
                     )
